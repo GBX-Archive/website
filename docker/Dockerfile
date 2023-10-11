@@ -3,7 +3,6 @@ FROM node:lts-slim
 
 # Stage 1: Build the application
 WORKDIR /srv/app
-ENV REACT_APP_API_URL=https://api.gbxarchive.uk
 COPY package*.json ./
 RUN npm install
 COPY . .
@@ -12,6 +11,7 @@ RUN npm run build
 # Stage 2: Create the final image
 FROM node:lts-slim
 WORKDIR /srv/app
+ENV REACT_APP_API_URL=https://api.gbxarchive.uk
 COPY --from=0 /srv/app .
 EXPOSE 3000
 CMD ["npm", "run", "start:prod"]
