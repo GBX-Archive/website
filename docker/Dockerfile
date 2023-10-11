@@ -3,8 +3,9 @@ FROM node:lts-slim
 
 # Stage 1: Build the application
 WORKDIR /srv/app
+ENV REACT_APP_API_URL=$REACT_APP_API_URL
 COPY package*.json ./
-RUN npm install --production
+RUN npm install
 COPY . .
 RUN npm run build
 
