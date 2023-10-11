@@ -62,14 +62,17 @@
 
 /* make the buttons white */
 .ep-card audio::-webkit-media-controls-play-button,
-.ep-card audio::-webkit-media-controls-mute-button {
+.ep-card audio::-webkit-media-controls-mute-button,
+.ep-card audio::-webkit-media-controls-overflow-button,
+.ep-card audio::-webkit-media-controls-fullscreen-button
+{
   filter: invert(1);
 }
 
-.ep-card audio::-webkit-media-controls-volume-slider {
+.ep-card audio::-webkit-media-controls-volume-slider, 
+.ep-card audio::-webkit-media-controls-timeline {
   filter: invert(1);
 }
-
 
 .filter {
   width: 97%;
@@ -130,4 +133,10 @@
   border: 1px solid #ccc;
   border-radius: 5px;
   outline: none;
+}
+
+
+.rhap_container {
+  bottom: 0!important;
+  position: absolute!important;
 }

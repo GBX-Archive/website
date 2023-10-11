@@ -6,6 +6,19 @@ import InfiniteScroll from 'react-infinite-scroll-component'; // Import the libr
 
 type ShowType = 'gbx' | 'snt' | 'all';
 
+const fetchData = (setData: (data: any[]) => any, setPages: (pages: number) => any, page: number, showQ: ShowType, dateFilter: string | null, data: any[]) => {
+  fetch(`${process.env.REACT_APP_API_URL || 'https://api.gbxarchive.uk'}/episode?limit=6&page=${page}&show=${showQ}${dateFilter ? `&date=${dateFilter}` : ''}`)
+    .then((res) => res.json())
+    .then((ndata) => {
+      const { episodes, pages } = ndata;
+      setData([...data, ...episodes]);
+      setPages(pages);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
 function App() {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
@@ -16,21 +29,8 @@ function App() {
   const [pages, setPages] = useState<number>(1);
   const [dateFilter, setDateFilter] = useState<string | null>(urlParams.get('date'));
 
-  const fetchData = useCallback(() => {
-    fetch(`${process.env.REACT_APP_API_URL}/episode?limit=6&page=${page}&show=${showQ}${dateFilter ? `&date=${dateFilter}` : ''}`)
-      .then((res) => res.json())
-      .then((ndata) => {
-        const { episodes, pages } = ndata;
-        setData([...data, ...episodes]);
-        setPages(pages);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [data, page, showQ, dateFilter]);
-
   useEffect(() => {
-    fetchData();
+    fetchData(setData, setPages, page, showQ, dateFilter, data);
   }, [page, showQ, dateFilter]);
 
   const handleShowFilterChange = (show: ShowType) => {
@@ -104,6 +104,7 @@ function App() {
                     src={episode.mp3_url}
                     controls
                     controlsList="nodownload"
+                    title={episode.title}
                   />
                 </div>
               </div>

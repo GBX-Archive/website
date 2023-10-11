@@ -6,7 +6,6 @@ WORKDIR /srv/app
 COPY package*.json ./
 RUN npm install
 COPY . .
-ENV REACT_APP_API_URL=https://api.gbxarchive.uk
 RUN npm run build
 
 # Stage 2: Create the final image
